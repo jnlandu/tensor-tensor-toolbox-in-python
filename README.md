@@ -16,11 +16,15 @@ To get you understand the t-product and its applications, please refer to the fo
 - Numpy
 - torch (optional, for GPU support)
 
-## Installation
-You can clone this repository using git:
+## Clone the repository
 ```bash
-git clone   
-```
+git clone https://github.com/jnlandu/tensor-tensor-toolbox-in-python
+cd tensor-tensor-toolbox-in-python
+``` 
+## Folder structure
+- `toolbox/`: Contains the implementation of tensor operations.
+- `examples.ipynb`: A Jupyter notebook with examples.   
+
 
 ### Contributing
 Contributions are welcome! Please feel free to submit issues or pull requests.

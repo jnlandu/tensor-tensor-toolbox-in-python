@@ -1,3 +1,8 @@
+"""
+tensor_toolbox/tensorLinalg.py
+Tensor algebra operations under the t-product framework.
+"""
+
 # In this file, we define various operation  of tensor algebra under the t-product.
 # For the theory  behind, we recommend the seminal paper:
 # "Third-Order Tensors as Operators on Matrices: A Theoretical and Computational Framework
@@ -8,7 +13,7 @@
 
 
 
-from tensor_toolbox.CONFIG import *
+from tensor_toolbox.config import *
 
 def bcirc(AA):
   """
@@ -141,7 +146,7 @@ def unfold(B):
   --------
   C: torch.Tensor of size (n1*n2, n3)
   """
-  n1, n2, n3 = B.shape
+  _, _, n3 = B.shape
   return torch.cat([B[:, :, k] for k in range(n3)], dim=0)
 
 def fold(A):
@@ -306,37 +311,7 @@ def t_pinv_via_bcirc(A, rcond=1e-12):
     return A_dag
 
 
-def t_pinv_apply_via_bcirc(A, B, rcond=1e-12):
-    """
-    New implementation of X=A^+ * B via:
-    - unfold(X) = pinv(bcirc(A)) @ unfold(B)
-    
-    Parameters:
-    -----------
-    A: torch. Tensor  A (m, n, p)
-    B: torch. 3rd tensor (m, k, p)
 
-    Returns:
-    --------
-    X: torch. 3rd tensor (n, k, p)
-    """
-    m, n, p = A.shape
-    m2, k, p2 = B.shape
-
-    if (m2 != m) or (p2 != p):
-        raise ValueError("Need A:(m,n,p), B:(m,k,p) with same m and p")
-
-    BA = bcirc(A)                                # (m*p, n*p)
-
-    BA_dag = torch.linalg.pinv(BA, rcond=rcond)  # (n*p, m*p)
-
-    uB = unfold(B)                               # (m*p, k)
-
-    uX = BA_dag @ uB                             # (n*p, k)
-
-    X  = fold(uX, n, k, p)                       # (n, k, p)
-
-    return X
 
 
 

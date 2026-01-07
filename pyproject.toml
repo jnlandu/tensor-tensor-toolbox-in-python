@@ -3,25 +3,45 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "tensor-tools"
+name = "tensor_toolbox"
 version = "0.1.0"
-description = "Tensor linear algebra utilities"
+description = "A python  toolbox for the tensor linear algebra under the t-product"
 readme = "README.md"
 requires-python = ">=3.9"
+license = "MIT"
 authors = [
-  { name = "Jeremie" }
+  { name = "Jeremie Mabiala", email = "jnlandu@gmail.com" },
 ]
 dependencies = [
   "numpy",
   "torch",
 ]
 
+keywords = [
+  "tensor",
+  "t-product",
+  "tensor linear algebra",
+]
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Scientific/Engineering :: Mathematics",
+]
+
+[project.urls]
+Repository = "https://github.com/jnlandu/tensor-tensor-toolbox-in-python"
+Homepage = "https://jnlandu.github.io/"
+
 [tool.setuptools]
 package-dir = {"" = "."}
+license-files = ["LICENSE"]
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["toolbox*"]
+include = ["tensor_toolbox*"]
 
 [tool.setuptools.exclude-package-data]
 "*" = ["__pycache__", "*.pyc"]

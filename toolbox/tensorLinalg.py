@@ -8,8 +8,7 @@
 
 
 
-from tools.CONFIG import *
-
+from toolbox.CONFIG import *
 def bcirc(AA):
   """
   Convert a 3D tensor into a block circulant matrix,

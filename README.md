@@ -1,8 +1,10 @@
 ## Tensor-Tensor Toolbox in Python
 
-This repo povides the python implementation of basic tensor operations under t-product defined in the paper by [J. M. Kilmer and C. D. Martin, "Factorization strategies for third-order tensors," Linear Algebra and its Applications, vol. 435, no. 3, pp. 641-658, Aug. 2011](https://www.sciencedirect.com/science/article/pii/S0024379510004830).
+This repo povides the python implementation of tensor operations under the tensor-tensor product (also known t-product) proposed in the the paper by [J. M. Kilmer and C. D. Martin, "Factorization strategies for third-order tensors," Linear Algebra and its Applications, vol. 435, no. 3, pp. 641-658, Aug. 2011](https://www.sciencedirect.com/science/article/pii/S0024379510004830).
 
-The implementations follows from the repo [Tensor-tensor-product-toolbox](https://github.com/canyilu/Tensor-tensor-product-toolbox), which presents a MATLAB implementation of the same operations.
+The implementation follows from the repo [Tensor-tensor-product-toolbox](https://github.com/canyilu/Tensor-tensor-product-toolbox), which presents a MATLAB implementation of the same operations.
+
+We made some modifications to adapt the code to python and PyTorch framework, and added some functionalities. We  also  packaged the code to make it easy to install, to use, and to contribute.
 
 To get you understand the t-product and its applications, please refer to the following papers:
 - [J. M. Kilmer, K. Braman, N. Hao, and R. C. Hoover, "Third-order tensors as operators on matrices: a theoretical and computational framework with applications in imaging," SIAM Journal on Matrix Analysis and Applications, vol. 34, no. 1, pp. 148-172, Jan. 2013.](https://epubs.siam.org/doi/10.1137/120876800)

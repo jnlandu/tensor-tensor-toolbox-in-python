@@ -256,3 +256,88 @@ def t_pinv_apply(Ablk, Bblk, rcond=1e-12):
 
 
 
+
+
+# ----- The following codes must be revised. Do not use them-----
+def bcirc_firstcol_to_tensor(BC, block_rows, block_cols, p):
+    """
+    If BC = bcirc(T) where T has shape (block_rows, block_cols, p),
+    then the first block-column of BC is [T(:,:,0); T(:,:,1); ...; T(:,:,p-1)].
+
+    So we recover T by slicing the first block-column.
+    Parameters:
+    -----------
+    BC: torch.Tensor of size (block_rows*p, block_cols)
+    block_rows: int
+    block_cols: int
+    p: int
+
+    Returns:
+    --------
+    slices: torch.Tensor of size (block_rows, block_cols, p)
+    """
+    slices = []
+    for kk in range(p):
+        slices.append(BC[kk*block_rows:(kk+1)*block_rows, 0:block_cols])
+    return torch.stack(slices, dim=2)  # (block_rows, block_cols, p)
+
+
+
+def t_pinv_via_bcirc(A, rcond=1e-12):
+    """
+    Implementation of the pseudoinverse A^+.
+
+    Define A_dag by: bcirc(A_dag) = pinv(bcirc(A)).
+    
+    Parameters:
+    -----------
+    A: torch. Tensor of size (m, n, p)
+    
+    Returns:
+    -------
+    A_dag: torch. Tensor of size (n, m, p)
+    """
+    m, n, p = A.shape
+    BA = bcirc(A)                                 # (m*p, n*p)
+    BA_dag = torch.linalg.pinv(BA, rcond=rcond)   # (n*p, m*p)
+
+
+    A_dag = bcirc_firstcol_to_tensor(BA_dag, block_rows=n, block_cols=m, p=p)  # (n,m,p)
+    return A_dag
+
+
+def t_pinv_apply_via_bcirc(A, B, rcond=1e-12):
+    """
+    New implementation of X=A^+ * B via:
+    - unfold(X) = pinv(bcirc(A)) @ unfold(B)
+    
+    Parameters:
+    -----------
+    A: torch. Tensor  A (m, n, p)
+    B: torch. 3rd tensor (m, k, p)
+
+    Returns:
+    --------
+    X: torch. 3rd tensor (n, k, p)
+    """
+    m, n, p = A.shape
+    m2, k, p2 = B.shape
+
+    if (m2 != m) or (p2 != p):
+        raise ValueError("Need A:(m,n,p), B:(m,k,p) with same m and p")
+
+    BA = bcirc(A)                                # (m*p, n*p)
+
+    BA_dag = torch.linalg.pinv(BA, rcond=rcond)  # (n*p, m*p)
+
+    uB = unfold(B)                               # (m*p, k)
+
+    uX = BA_dag @ uB                             # (n*p, k)
+
+    X  = fold(uX, n, k, p)                       # (n, k, p)
+
+    return X
+
+
+
+

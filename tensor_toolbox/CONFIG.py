@@ -1,12 +1,11 @@
+"""
+Docstring for tensor_toolbox.config
+"""
+
 import torch
-import numpy as np
-import os
 
-from torch.fft import fft, ifft
-
-
-# Device configuration. We also use Apple MPS if available, as we are implementing  on a macOS system with an M3 chip.
-
+# Device configuration. We also use Apple MPS if available,
+# as we are implementing  on a macOS system with an M3 chip.
 mps_available = torch.backends.mps.is_available() and torch.backends.mps.is_built()
 if mps_available:
     device = torch.device("mps")
@@ -16,4 +15,5 @@ else:
     device = torch.device("cpu")
 
 #  All the tensors are assumed real:
-dtype = torch.float32
+DTYPE = torch.float32
+

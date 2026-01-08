@@ -1,3 +1,7 @@
+"""
+Docstring for tensor_toolbox.tensorLinalg
+"""
+
 # In this file, we define various operation  of tensor algebra under the t-product.
 # For the theory  behind, we recommend the seminal paper:
 # "Third-Order Tensors as Operators on Matrices: A Theoretical and Computational Framework
@@ -8,7 +12,7 @@
 
 
 
-from tensor_toolbox.CONFIG import *
+from tensor_toolbox.config import *
 
 def bcirc(AA):
   """
@@ -24,14 +28,14 @@ def bcirc(AA):
   --------
   BB: torch. Tensor of size (mm*nn, mm*pp)
   """
-  mm, nn, pp = AA.shape
+  mm, nn, _ = AA.shape
   
   #  Stack all the 3-mode slices vertically:
   BB = BB = torch.cat([AA[:, :, k] for k in range(nn)], dim=0)
 
   #  Then create the bcirc structure
   newCol = BB.clone()
-  for  k in range(1, nn):
+  for  _ in range(1, nn):
     newCol = torch.roll(newCol, mm, dims =0)
     BB = torch.cat([BB, newCol], dim=1)
 
@@ -141,7 +145,7 @@ def unfold(B):
   --------
   C: torch.Tensor of size (n1*n2, n3)
   """
-  n1, n2, n3 = B.shape
+  _, _, n3 = B.shape
   return torch.cat([B[:, :, k] for k in range(n3)], dim=0)
 
 def fold(A):
@@ -157,7 +161,7 @@ def fold(A):
   B: torch.Tensor of size (n1, n2, n3)
 
   """
-  n1, n2, n3 = A.shape
+  n1, _, n3 = A.shape
   # return A.reshape(n1, n2, n3)
   return torch.stack([A[kk*n1:(kk+1)*n1, :] for kk in range(n3)], dim=2)
 
@@ -239,7 +243,7 @@ def t_pinv_apply(Ablk, Bblk, rcond=1e-12):
     Af = torch.fft.fft(Ablk, dim=2)  # (m, r, p) complex
     Bf = torch.fft.fft(Bblk, dim=2)  # (m, k, p) complex
 
-    m, r, p = Ablk.shape
+    _, r, p = Ablk.shape
     _, k, _ = Bblk.shape
 
     Xf = torch.empty((r, k, p), device=Ablk.device, dtype=Af.dtype)

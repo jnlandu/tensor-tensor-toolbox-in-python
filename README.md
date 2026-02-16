@@ -166,8 +166,23 @@ python -m pip install dist/tensor_toolbox-0.1.0-py3-none-any.whl
 ### Contributing
 Contributions are welcome! Please feel free to submit issues or pull requests.
 
+
+
+#### Citation
+```bibtex
+@unpublished{mabiala2026tensor-tools,
+  author = {Mabiala, J.N.},
+  title = {Python implementation of the  tensor to tensor multiplications (t-product)},
+  year = {2026},
+  note = {To appear},
+  url = {https://github.com/jnlandu/tensor-randomized-kaczmarz-algorithms}
+}
+```
+
 ### License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+
 
 
 
